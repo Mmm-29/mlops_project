@@ -1,0 +1,8 @@
+2025-05-25 00:52:04,500:INFO:Converting CSV to JSON...
+2025-05-25 00:52:04,500:INFO:Reading CSV file from: Networkdata\phisingData.csv
+2025-05-25 00:52:04,625:INFO:Successfully converted CSV to JSON with 11055 records.
+2025-05-25 00:52:04,699:INFO:Inserting data into MongoDB...
+2025-05-25 00:52:04,699:INFO:Connecting to MongoDB to insert data at mongodb+srv://modanmohan21scse1011605:Abcd123@cluster0.x2squuq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+2025-05-25 00:52:05,428:INFO:Inserting 11055 records into MMMdatabase.Network_phishingData
+2025-05-25 00:52:13,986:INFO:Data inserted successfully into MMMdatabase.Network_phishingData
+2025-05-25 00:52:13,986:INFO:Data conversion completed and records successfully inserted into MongoDB.

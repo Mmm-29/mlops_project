@@ -1,7 +1,7 @@
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
-from Networksecurity.logging import logger
+from Networksecurity.logging.logger import logger
 class securityException(Exception):
     """Base class for all security exceptions."""
     def __init__(self, error_message,error_details:sys):
