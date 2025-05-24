@@ -12,7 +12,7 @@ class securityException(Exception):
         self.file_name = exc_tb.tb_frame.f_code.co_filename
     
     def __str__(self):
-        return "Eror occurred in script name [{}] at line number [{}] with error message [{}]".format(
+        return "Error occurred in script name [{}] at line number [{}] with error message [{}]".format(
             self.file_name, 
             self.line_no, 
             str(self.error_message)
