@@ -18,6 +18,8 @@ from sklearn.ensemble import (
     RandomForestClassifier,
 )
 import mlflow
+import dagshub
+dagshub.init(repo_owner='mannamodanmohan', repo_name='mlops_project', mlflow=True)
 
 
 

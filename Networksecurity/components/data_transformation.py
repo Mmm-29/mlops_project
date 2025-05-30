@@ -145,9 +145,11 @@ class DataTransformation:
             save_numpy_array_data( self.data_transformation_config.transformed_train_file_path, array=train_arr, )
             save_numpy_array_data( self.data_transformation_config.transformed_test_file_path,array=test_arr,)
             save_object( self.data_transformation_config.transformed_object_file_path, preprocessor_object,)
-            logger.info(f"Transformed train data saved to '{self.data_transformation_config.transformed_train_file_path}' in the form of a NumPy array.")  # ✅ UPDATED
-            logger.info(f"Transformed test data saved to '{self.data_transformation_config.transformed_test_file_path}' in the form of a NumPy array.")    # ✅ UPDATED
-            logger.info(f"Preprocessor object (including KNNImputer) saved to '{self.data_transformation_config.transformed_object_file_path}'.")          # ✅ UPDATED
+            save_object("final_model/preprocessor.pkl", preprocessor_object) #saving the preprocessor object separately to final_model/preprocessor.pkl
+            logger.info(f"Transformed train data saved to '{self.data_transformation_config.transformed_train_file_path}' in the form of a NumPy array.")
+
+            logger.info(f"Transformed test data saved to '{self.data_transformation_config.transformed_test_file_path}' in the form of a NumPy array.")   
+            logger.info(f"Preprocessor object (including KNNImputer) saved to '{self.data_transformation_config.transformed_object_file_path}'.")          
 
 
 
