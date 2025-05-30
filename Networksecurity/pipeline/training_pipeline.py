@@ -11,11 +11,14 @@ from Networksecurity.entity.config_entity import (
 from Networksecurity.entity.artifact_entity import (
     DataIngestionArtifact, DataValidationArtifact, DataTransformationArtifact, ModelTrainerArtifact
 )   
+from Networksecurity.constant.training_pipeline import TRAINING_BUCKET_NAME
+from Networksecurity.cloud.s3_syncer import s3sync
 
 
 class TrainingPipeline:
     def __init__(self):
         self.training_pipeline_config: TrainingPipelineConfig = TrainingPipelineConfig()
+        self.s3_sync=s3sync()
     
     def start_data_ingestion(self) -> DataIngestionArtifact:
         try:
@@ -67,12 +70,43 @@ class TrainingPipeline:
             logger.error("Error occurred during model training")
             raise securityException(e, sys) from e
         
+    
+    # local artifact directory to s3 bucket
+    def sync_artifact_dir_to_s3(self):
+        try:
+
+            logger.info("Syncing artifact directory to S3")
+            aws_bucket_url="s3://{}/artifact/{}".format(TRAINING_BUCKET_NAME, self.training_pipeline_config.timestamp)
+            self.s3_sync.sync_folder_to_s3(folder=self.training_pipeline_config.artifact_dir, aws_bucket_url=aws_bucket_url)
+        except Exception as e:
+            logger.error("Error occurred while syncing artifact directory to S3")       
+            raise securityException(e, sys) from e
+            
+          
+        
+        
+
+    #local final saved model directory to s3 bucket
+    def sync_saved_model_dir_to_s3(self):
+        try:
+            logger.info("Syncing final_model directory to S3")
+            aws_bucket_url = f"s3://{TRAINING_BUCKET_NAME}/final_model/{self.training_pipeline_config.timestamp}"
+            self.s3_sync.sync_folder_to_s3(folder = self.training_pipeline_config.model_dir,aws_bucket_url=aws_bucket_url)
+
+        except Exception as e:
+            logger.error("Error occurred while syncing saved model directory to S3")
+            raise securityException(e, sys) from e
+
+        
     def run_pipeline(self):
         try:
             ingestion_artifact = self.start_data_ingestion()
             validation_artifact = self.start_data_validation(ingestion_artifact)
             transformation_artifact = self.start_data_transformation(validation_artifact)
             model_trainer_artifact = self.start_model_trainer(transformation_artifact)
+
+            self.sync_artifact_dir_to_s3()
+            self.sync_saved_model_dir_to_s3()
             return model_trainer_artifact
         except Exception as e:
             logger.error("Pipeline execution failed")

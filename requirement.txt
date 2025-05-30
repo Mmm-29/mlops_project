@@ -10,3 +10,4 @@ dagshub
 fastapi
 uvicorn
 python-multipart
+awscli
